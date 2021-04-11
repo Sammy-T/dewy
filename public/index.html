@@ -57,6 +57,7 @@
 			nav {
 				padding: 1rem;
 				display: flex;
+				flex-wrap: wrap;
 				justify-content: space-between;
 				align-items: center;
 				background-color: var(--color-primary);
@@ -76,6 +77,14 @@
 
 			nav .button img {
 				max-width: inherit;
+			}
+
+			.brand {
+				display: flex;
+			}
+
+			.brand img {
+				margin-right: 0.25rem;
 			}
 
 			select {
@@ -159,6 +168,7 @@
 
 			.post-info {
 				display: flex;
+				flex-wrap: wrap;
 				align-items: flex-start;
 				margin-bottom: 1rem;
 			}
@@ -192,7 +202,10 @@
 	<body>
 		<header>
 			<nav>
-				<a href="#"><h4>dewy</h4></a>
+				<a href="#" class="brand">
+					<img src="img/dewy-ic.svg">
+					<h4>dewy</h4>
+				</a>
 
 				<form class="inline">
 					<input type="search" placeholder="Search">
