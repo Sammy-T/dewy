@@ -4,199 +4,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<title>dewy</title>
+
+		<!-- Milligram -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
 
-		<style>
-			body {
-				--color-surface: white;
-				--color-primary: whitesmoke;
-				--color-detail: lightgray;
-				--color-text: #606c7;
+		<link rel="stylesheet" href="css/styles.css">
 
-				--color-chip: var(--color-surface);
-				--color-chip-border: var(--color-detail);
-				--color-chip-hover: var(--color-primary);
-				--chip-shadow-strength: 5%;
-
-				--color-card: whitesmoke;
-				--color-card-border: var(--color-detail);
-
-				--color-input: var(--color-text);
-
-				background-color: var(--color-surface);
-				color: var(--color-text);
-			}
-
-			.theme-dark {
-				--color-surface: #303742;
-				--color-primary: #15191e;
-				--color-detail: #15191e;
-				--color-text: whitesmoke;
-
-				--color-chip: #404a59;
-				--color-chip-border: #404a59;
-				--color-chip-hover: #4b5668;
-				--chip-shadow-strength: 12%;
-
-				--color-card: #20252c;
-				--color-card-border: #20252c;
-			}
-
-			input {
-				color: var(--color-input);
-			}
-
-			header {
-				position: sticky;
-				top: 0;
-				background-color: var(--color-surface);
-			}
-
-			nav {
-				padding: 1rem;
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: space-between;
-				align-items: center;
-				background-color: var(--color-primary);
-			}
-
-			nav * {
-				margin: 0;
-			}
-
-			nav .button {
-				padding: 0 0.5rem;
-				margin: 0;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-
-			nav .button img {
-				max-width: inherit;
-			}
-
-			.brand {
-				display: flex;
-			}
-
-			.brand img {
-				margin-right: 0.25rem;
-			}
-
-			select {
-				background-color: var(--color-surface);
-				color: var(--color-text);
-			}
-
-			section {
-				padding: 1rem;
-			}
-
-			#opts-section {
-				max-width: 1120px;
-				margin: 0 auto;
-				display: flex;
-				border-bottom: 1px solid var(--color-detail);
-			}
-
-			#filter-area {
-				flex-grow: 1;
-				display: flex;
-				align-items: center;
-			}
-
-			#sort-form label {
-				flex-shrink: 0;
-			}
-
-			main {
-				max-width: 1120px;
-				margin: 0 auto;
-				padding: 2rem;
-			}
-
-			form.inline {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				margin: 0;
-			}
-
-			form.inline * {
-				margin: 0;
-				margin-right: 0.5rem;
-			}
-
-			form.inline *:last-child {
-				margin: 0;
-			}
-
-			.chip-container {
-				display: flex;
-			}
-
-			.chip {
-				border: 1px solid var(--color-chip-border);
-				background-color: var(--color-chip);
-				border-radius: 1.5rem;
-				margin: 0.25rem;
-				padding: 0.3rem 1rem;
-				line-height: 1.3;
-				-webkit-box-shadow: 0 0.2rem 0 rgb(0 0 0 / var(--chip-shadow-strength));
-				box-shadow: 0 0.2rem 0 rgb(0 0 0 / var(--chip-shadow-strength));
-			}
-
-			.chip * {
-				margin: 0;
-			}
-
-			.chip:hover {
-				background-color: var(--color-chip-hover);
-				cursor: pointer;
-			}
-
-			.card {
-				border: 1px solid var(--color-card-border);
-				background-color: var(--color-card);
-				border-radius: 1rem;
-				padding: 2rem;
-			}
-
-			.post-info {
-				display: flex;
-				flex-wrap: wrap;
-				align-items: flex-start;
-				margin-bottom: 1rem;
-			}
-
-			.post-info h1, .post-info h2, .post-info h3, .post-info h4, 
-			.post-info h5, .post-info h6, .post-info p {
-				margin: 0;
-			}
-
-			.post-details {
-				flex-grow: 1;
-				margin: 0 1rem;
-			}
-
-			.post-details .chip-container {
-				margin-top: 1.5rem;
-			}
-
-			.metric {
-				background-color: var(--color-detail);
-				border: 1px solid var(--color-detail);
-				border-radius: 1rem;
-				margin-right: 1rem;
-				min-width: 7rem;
-				padding: 1rem 0.65rem;
-				text-align: center;
-			}
-		</style>
+		<script src="js/dewy.js" defer></script>
 	</head>
 
 	<body>
@@ -284,22 +101,5 @@
 			<h5>Heading</h5>
 			<h6>Heading</h6>
 		</main>
-
-		<script>
-			let darkModeOn = false;
-
-			document.querySelector('#mode-toggle').addEventListener('click', function() {
-				darkModeOn = !darkModeOn;
-
-				const ic = this.querySelector('img');
-				ic.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
-
-				if(darkModeOn) {
-					document.body.classList.add('theme-dark');
-				}else{
-					document.body.classList.remove('theme-dark');
-				}
-			});
-		</script>
 	</body>
 </html>
