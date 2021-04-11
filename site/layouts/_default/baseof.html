@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="{{ $.Site.Language.Lang }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <base href="{{ if getenv `CONTEXT` }}{{ cond (eq `production` (getenv `CONTEXT`)) (getenv `URL`) (getenv `DEPLOY_PRIME_URL`) }}{{ else }}{{ $.Site.BaseURL }}{{ end }}">
+  <title>{{ $.Site.Title }}</title>
+
+  <!-- Milligram -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+
+  {{ $stylesheet := .Site.Data.webpack.main }}
+  {{ with $stylesheet.css }}
+    <link href="{{ relURL . }}" rel="stylesheet">
+  {{ end }}
+
+  {{ $script := .Site.Data.webpack.main }}
+  {{ with $script.js }}
+    <script src="{{ relURL . }}" defer></script>
+  {{ end }}
+
+  <link rel="stylesheet" href="{{ `/css/styles.css` | relURL }}">
+
+  {{ block "page-head" . }}{{ end }}
+</head>
+
+<body>
+  {{ block "header" . }}{{ partial "header" . }}{{ end }}
+
+  {{ block "main" . }}{{ end }}
+
+  {{ block "footer" . }}{{ partial "footer" . }}{{ end }}
+</body>
+</html>
