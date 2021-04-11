@@ -199,7 +199,7 @@
 					</button>
 				</form>
 
-				<button type="button" class="button button-outline">
+				<button id="mode-toggle" type="button" class="button button-outline">
 					<img src="img/brightness-4.svg">
 				</button>
 			</nav>
@@ -269,5 +269,22 @@
 			<h5>Heading</h5>
 			<h6>Heading</h6>
 		</main>
+
+		<script>
+			let darkModeOn = false;
+
+			document.querySelector('#mode-toggle').addEventListener('click', function() {
+				darkModeOn = !darkModeOn;
+
+				const ic = this.querySelector('img');
+				ic.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
+
+				if(darkModeOn) {
+					document.body.classList.add('theme-dark');
+				}else{
+					document.body.classList.remove('theme-dark');
+				}
+			});
+		</script>
 	</body>
 </html>
