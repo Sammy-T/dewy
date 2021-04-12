@@ -1,11 +1,11 @@
 let darkModeOn = false;
 
+const themeToggle = document.querySelector('#theme-toggle');
+
 function init() {
-    // Toggle dark mode
-    document.querySelector('#mode-toggle').addEventListener('click', function() {
-        darkModeOn = !darkModeOn;
-    
-        const buttonIcon = this.querySelector('img');
+    /** Refresh the layout and styles to reflect the current theme. */
+    function refreshTheme() {
+        const buttonIcon = themeToggle.querySelector('img');
         buttonIcon.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
     
         if(darkModeOn) {
@@ -13,7 +13,24 @@ function init() {
         }else{
             document.body.classList.remove('theme-dark');
         }
+    }
+
+    // Toggle theme mode
+    themeToggle.addEventListener('click', () => {
+        darkModeOn = !darkModeOn;
+        refreshTheme();
+
+        // Store the selected theme mode
+        localStorage.setItem('dewy.theme', (darkModeOn) ? 'dark' : 'light');
     });
+
+    // Check for saved theme mode & update to saved value
+    const savedTheme = localStorage.getItem('dewy.theme');
+
+    if(savedTheme) {
+        darkModeOn = (savedTheme === 'dark');
+        refreshTheme();
+    }
 }
 
 init();
