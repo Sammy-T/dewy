@@ -24,9 +24,9 @@
 
     <section id="opts-section">
         <div id="filter-area">
+            <!-- <div class="chip">Tag</div>
             <div class="chip">Tag</div>
-            <div class="chip">Tag</div>
-            <div class="chip">Tag</div>
+            <div class="chip">Tag</div> -->
         </div>
 
         <form id="sort-form" class="inline">
@@ -42,6 +42,13 @@
 
 {{ define "main" }}
 <main>
+</main>
+
+<template id="template-chip">
+    <div class="chip">Tag</div>
+</template>
+
+<template id="template-card">
     <div class="card">
         <div class="post-info">
             <div class="metric">
@@ -58,8 +65,8 @@
                 <a href="#"><h4>title</h4></a>
                 <p>author</p>
                 <div class="chip-container">
-                    <div class="chip">Tag</div>
-                    <div class="chip">Tag</div>
+                    <!-- <div class="chip">Tag</div>
+                    <div class="chip">Tag</div> -->
                 </div>
             </div>
 
@@ -71,22 +78,5 @@
             <p>Expanded</p>
         </details>
     </div>
-
-    <p>This cosmic dance of bursting decadence and withheld permissions.</p>
-
-    <!-- Other elements to text markup -->
-    <a href="#">Anchor</a><br/>
-    <em>Emphasis</em><br/>
-    <small>Small</small><br/>
-    <strong>Strong</strong><br/>
-    <u>Underline</u><br/>
-
-    <!-- Default Headings -->
-    <h1>Heading</h1>
-    <h2>Heading</h2>
-    <h3>Heading</h3>
-    <h4>Heading</h4>
-    <h5>Heading</h5>
-    <h6>Heading</h6>
-</main>
+</template>
 {{ end }}
