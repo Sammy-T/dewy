@@ -84,3 +84,16 @@
     </div>
 </template>
 {{ end }}
+
+{{ define "footer" }}
+<footer>
+    <p>designed by <a href="#">Sammy T</a></p>
+
+    <a href="#" class="brand">
+        <img src="{{ `/img/github.svg` | relURL }}">
+        <p>GitHub</p>
+    </a>
+
+    <button type="button" id="btn-disconnect" class="button button-small button-clear">Disconnect</button>
+</footer>
+{{ end }}
