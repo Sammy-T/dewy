@@ -104,6 +104,7 @@ section {
 
 main {
     max-width: 1120px;
+    min-height: 75vh;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -184,4 +185,12 @@ form.inline *:last-child {
     min-width: 7rem;
     padding: 1rem 0.65rem;
     text-align: center;
+}
+
+.msg {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
