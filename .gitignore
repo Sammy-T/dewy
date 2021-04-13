@@ -4,3 +4,6 @@ site/data/webpack.json
 
 # Connect Button partial
 connect-button.html
+
+# Public app credentials
+dewy-info.js

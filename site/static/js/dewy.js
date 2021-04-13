@@ -1,13 +1,49 @@
 let darkModeOn = false;
 
+let token;
+
+const apiRoot = 'https://api.stackexchange.com/2.2';
+
 const main = document.querySelector('main');
 const themeToggle = document.querySelector('#theme-toggle');
 
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 
+async function fetchBookmarks() {
+    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&access_token=${token}&key=${dewy.key}`;
+    
+    try {
+        const response = await fetch(endpoint);
+        const responseJson = await response.json();
+
+        console.log(responseJson);
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 function showConnectMsg() {
     const msgConnect = templateMsgConnect.content.firstElementChild.cloneNode(true);
     main.appendChild(msgConnect);
+}
+
+function checkToken() {
+    // Check for token in the hash
+    const hash = location.hash;
+    const hashParams = new URLSearchParams(hash.substring(1));
+
+    if(hashParams.has('access_token')) {
+        token = hashParams.get('access_token');
+        //// TODO: Store token
+    } else {
+        //// TODO: Check stored
+    }
+
+    if(token) {
+        fetchBookmarks();
+    } else {
+        showConnectMsg();
+    }
 }
 
 /** Apply a previously saved theme and respond to theme changes. */
@@ -44,7 +80,7 @@ function initTheme() {
 
 function init() {
     initTheme();
-    showConnectMsg();
+    checkToken();
 }
 
 init();
