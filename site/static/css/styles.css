@@ -200,6 +200,11 @@ form.inline *:last-child {
     text-align: center;
 }
 
+.answered {
+    background-color: #8A57A3;
+    color: whitesmoke;
+}
+
 .msg {
     min-height: 70vh;
     display: flex;

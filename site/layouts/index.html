@@ -62,31 +62,28 @@
 <template id="template-card">
     <div class="card">
         <div class="post-info">
-            <div class="metric">
+            <div class="metric metric-score">
                 <h6>score</h6>
-                <h4>0</h4>
+                <h4 class="post-score">0</h4>
             </div>
 
-            <div class="metric">
+            <div class="metric metric-answers">
                 <h6>answers</h6>
-                <h4>0</h4>
+                <h4 class="post-answers">0</h4>
             </div>
 
             <div class="post-details">
-                <a href="#"><h4>title</h4></a>
-                <p>author</p>
+                <a href="#" target="_blank" class="post-link"><h4 class="post-title">title</h4></a>
+                <p class="post-author">author</p>
                 <div class="chip-container">
-                    <!-- <div class="chip">Tag</div>
-                    <div class="chip">Tag</div> -->
                 </div>
             </div>
 
-            <h5>date</h5>
+            <h5 class="post-date">date</h5>
         </div>
 
         <details>
-            <summary>Expansion</summary>
-            <p>Expanded</p>
+            <summary>Details</summary>
         </details>
     </div>
 </template>

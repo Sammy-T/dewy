@@ -7,24 +7,55 @@ const apiRoot = 'https://api.stackexchange.com/2.2';
 const main = document.querySelector('main');
 const themeToggle = document.querySelector('#theme-toggle');
 
+const templateChip = document.querySelector('#template-chip');
+const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
-
-async function fetchBookmarks() {
-    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&access_token=${token}&key=${dewy.key}`;
-    
-    try {
-        const response = await fetch(endpoint);
-        const responseJson = await response.json();
-
-        console.log(responseJson);
-    } catch(err) {
-        console.error(err);
-    }
-}
 
 function showConnectMsg() {
     const msgConnect = templateMsgConnect.content.firstElementChild.cloneNode(true);
     main.appendChild(msgConnect);
+}
+
+function addCard(post) {
+    const card = templateCard.content.firstElementChild.cloneNode(true);
+
+    const postDate = new Intl.DateTimeFormat().format(new Date(post.creation_date * 1000));
+
+    if(post.is_answered) card.querySelector('.metric-answers').classList.add('answered');
+
+    card.querySelector('.post-score').innerText = post.score;
+    card.querySelector('.post-answers').innerText = post.answer_count;
+    card.querySelector('.post-link').href = post.link;
+    card.querySelector('.post-title').innerHTML = post.title;
+    card.querySelector('.post-author').innerText = post.owner.display_name;
+    card.querySelector('.post-date').innerText = postDate;
+    card.querySelector('details').innerHTML += post.body;
+
+    const chipContainer = card.querySelector('.chip-container');
+
+    post.tags.forEach(tag => {
+        const chip = templateChip.content.firstElementChild.cloneNode(true);
+        chip.innerText = tag;
+
+        chipContainer.appendChild(chip);
+    });
+
+    main.appendChild(card);
+}
+
+async function fetchBookmarks() {
+    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&filter=!9_bDDxJY5&access_token=${token}&key=${dewy.key}`;
+    
+    try {
+        // const response = await fetch(endpoint);
+        // const responseJson = await response.json();
+        const responseJson = dummyResponse; //// TODO: TEMP
+        console.log(responseJson);
+
+        responseJson.items.forEach(post => addCard(post));
+    } catch(err) {
+        console.error(err);
+    }
 }
 
 function checkToken() {
