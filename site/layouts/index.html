@@ -42,16 +42,22 @@
 
 {{ define "main" }}
 <main>
-    <section class="msg">
-        <h4>Connect to your Stack Overflow account to view and search your bookmarks</h4>
-        <button type="button" class="button">Connect</button>
-    </section>
 </main>
 
+<!-- Connect Message template -->
+<template id="template-msg-connect">
+    <section class="msg">
+        <h4>Connect to your Stack Overflow account to view and search your bookmarks</h4>
+        {{ partial "connect-button" . }}
+    </section>
+</template>
+
+<!-- Chip template -->
 <template id="template-chip">
     <div class="chip">Tag</div>
 </template>
 
+<!-- Card template -->
 <template id="template-card">
     <div class="card">
         <div class="post-info">

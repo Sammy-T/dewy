@@ -1,8 +1,17 @@
 let darkModeOn = false;
 
+const main = document.querySelector('main');
 const themeToggle = document.querySelector('#theme-toggle');
 
-function init() {
+const templateMsgConnect = document.querySelector('#template-msg-connect');
+
+function showConnectMsg() {
+    const msgConnect = templateMsgConnect.content.firstElementChild.cloneNode(true);
+    main.appendChild(msgConnect);
+}
+
+/** Apply a previously saved theme and respond to theme changes. */
+function initTheme() {
     /** Refresh the layout and styles to reflect the current theme. */
     function refreshTheme() {
         const buttonIcon = themeToggle.querySelector('img');
@@ -31,6 +40,11 @@ function init() {
         darkModeOn = (savedTheme === 'dark');
         refreshTheme();
     }
+}
+
+function init() {
+    initTheme();
+    showConnectMsg();
 }
 
 init();
