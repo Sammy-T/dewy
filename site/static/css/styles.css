@@ -107,6 +107,7 @@ main {
     min-height: 75vh;
     margin: 0 auto;
     padding: 2rem;
+    padding-bottom: 5rem;
 }
 
 form.inline {
@@ -154,11 +155,12 @@ form.inline *:last-child {
     background-color: var(--color-card);
     border-radius: 1rem;
     padding: 2rem;
+    margin-bottom: 1rem;
 }
 
 .post-info {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-start;
     margin-bottom: 1rem;
 }
@@ -169,6 +171,7 @@ form.inline *:last-child {
 }
 
 .post-details {
+    /* max-width: 50%; */
     flex-grow: 1;
     margin: 0 1rem;
 }
