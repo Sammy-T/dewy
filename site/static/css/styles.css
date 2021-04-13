@@ -12,6 +12,8 @@ body {
     --color-card: whitesmoke;
     --color-card-border: var(--color-detail);
 
+    --color-code-bg: #dcdada;
+
     --color-input: var(--color-text);
 
     background-color: var(--color-surface);
@@ -31,10 +33,16 @@ body {
 
     --color-card: #20252c;
     --color-card-border: #20252c;
+
+    --color-code-bg: #0b0c0f;
 }
 
 input {
     color: var(--color-input);
+}
+
+pre, code {
+    background-color: var(--color-code-bg);
 }
 
 header {
