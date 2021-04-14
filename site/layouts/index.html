@@ -11,9 +11,9 @@
             <h4>dewy</h4>
         </a>
 
-        <form class="inline">
-            <input type="search" placeholder="Search">
-            <button type="button" class="button">
+        <form id="search-form" class="inline">
+            <input id="search-input" type="search" placeholder="Search">
+            <button type="submit" class="button">
                 <img src="{{ `/img/magnify.svg` | relURL }}">
             </button>
         </form>
@@ -25,9 +25,6 @@
 
     <section id="opts-section">
         <div id="filter-area">
-            <!-- <div class="chip">Tag</div>
-            <div class="chip">Tag</div>
-            <div class="chip">Tag</div> -->
         </div>
 
         <form id="sort-form" class="inline">

@@ -1,10 +1,13 @@
 let darkModeOn = false;
 
 let token;
+let lastQuery;
 
 const apiRoot = 'https://api.stackexchange.com/2.2';
 
-const main = document.querySelector('main');
+const container = document.querySelector('main');
+const searchForm = document.querySelector('#search-form');
+const searchInput = document.querySelector('#search-input');
 const themeToggle = document.querySelector('#theme-toggle');
 
 const templateChip = document.querySelector('#template-chip');
@@ -12,8 +15,10 @@ const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 
 function showConnectMsg() {
+    container.innerHTML = ''; // Clear any previous content
+
     const msgConnect = templateMsgConnect.content.firstElementChild.cloneNode(true);
-    main.appendChild(msgConnect);
+    container.appendChild(msgConnect);
 }
 
 function addCard(post) {
@@ -40,11 +45,64 @@ function addCard(post) {
         chipContainer.appendChild(chip);
     });
 
-    main.appendChild(card);
+    container.appendChild(card);
+}
+
+async function searchBookmarks(query) {
+    const queryTerms = query.toLowerCase().trim().split(/\s+/);
+    console.log(queryTerms);
+
+    function searchPost(post) {
+        return queryTerms.some(term => {
+            // Check tags
+            const foundInTags = post.tags.some(tag => tag.toLowerCase() === term);
+            if(foundInTags) return true;
+
+            // Check title
+            const foundInTitlePos = post.title.toLowerCase().indexOf(term);
+            if(foundInTitlePos > -1) return true;
+
+            // Check body
+            const foundInBodyPos = post.body.toLowerCase().indexOf(term);
+            return (foundInBodyPos > -1);
+        });
+    }
+
+    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&filter=!9_bDDxJY5&pagesize=100&access_token=${token}&key=${dewy.key}`;
+
+    container.innerHTML = ''; // Clear any previous content
+
+    let i = 1;
+    let hasMore = false;
+
+    do {
+        let request = (i > 1) ? `${endpoint}&page=${i}` : endpoint;
+        console.log(request);
+
+        try {
+            // const response = await fetch(request);
+            // const responseJson = await response.json();
+            const responseJson = dummyResponse; //// TODO: TEMP
+            console.log(responseJson);
+
+            // hasMore = responseJson.has_more; //// TODO: TEMP
+
+            responseJson.items.forEach(post => {
+                if(searchPost(post)) addCard(post);
+            });
+        } catch(error) {
+            console.error(error);
+            break;
+        }
+
+        i++;
+    } while (hasMore);
 }
 
 async function fetchBookmarks() {
     const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&filter=!9_bDDxJY5&access_token=${token}&key=${dewy.key}`;
+
+    container.innerHTML = ''; // Clear any previous content
     
     try {
         // const response = await fetch(endpoint);
@@ -53,8 +111,8 @@ async function fetchBookmarks() {
         console.log(responseJson);
 
         responseJson.items.forEach(post => addCard(post));
-    } catch(err) {
-        console.error(err);
+    } catch(error) {
+        console.error(error);
     }
 }
 
@@ -112,6 +170,17 @@ function initTheme() {
 function init() {
     initTheme();
     checkToken();
+
+    searchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const query = searchInput.value.toLowerCase();
+
+        if(query && query !== lastQuery) {
+            lastQuery = query;
+            searchBookmarks(query);
+        }
+    });
 }
 
 init();
