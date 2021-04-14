@@ -8,6 +8,7 @@ const apiRoot = 'https://api.stackexchange.com/2.2';
 const container = document.querySelector('main');
 const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
+const sortBy = document.querySelector('#sort-by');
 const themeToggle = document.querySelector('#theme-toggle');
 
 const templateChip = document.querySelector('#template-chip');
@@ -68,7 +69,7 @@ async function searchBookmarks(query) {
         });
     }
 
-    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&filter=!9_bDDxJY5&pagesize=100&access_token=${token}&key=${dewy.key}`;
+    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=${sortBy.value}&site=stackoverflow&filter=!9_bDDxJY5&pagesize=100&access_token=${token}&key=${dewy.key}`;
 
     container.innerHTML = ''; // Clear any previous content
 
@@ -100,7 +101,7 @@ async function searchBookmarks(query) {
 }
 
 async function fetchBookmarks() {
-    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=added&site=stackoverflow&filter=!9_bDDxJY5&access_token=${token}&key=${dewy.key}`;
+    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=${sortBy.value}&site=stackoverflow&filter=!9_bDDxJY5&access_token=${token}&key=${dewy.key}`;
 
     container.innerHTML = ''; // Clear any previous content
     
@@ -174,12 +175,20 @@ function init() {
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const query = searchInput.value.toLowerCase();
+        const query = searchInput.value.trim().toLowerCase();
 
-        if(query && query !== lastQuery) {
-            lastQuery = query;
+        // Perform a search if the query is valid
+        // and not a duplicate of the last one
+        if(query !== '' && query !== lastQuery) {
             searchBookmarks(query);
+            lastQuery = query;
         }
+    });
+
+    sortBy.addEventListener('change', () => {
+        // Perform another search if there's already a query value entered
+        const query = searchInput.value.trim().toLowerCase();
+        if(query !== '') searchBookmarks(lastQuery);
     });
 }
 
