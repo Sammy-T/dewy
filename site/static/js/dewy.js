@@ -15,6 +15,10 @@ const templateChip = document.querySelector('#template-chip');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 
+/** 
+ * Displays the 'connect' message. This includes a button which
+ * triggers the access code request when clicked.
+ */
 function showConnectMsg() {
     container.innerHTML = ''; // Clear any previous content
 
@@ -22,6 +26,10 @@ function showConnectMsg() {
     container.appendChild(msgConnect);
 }
 
+/**
+ * Adds a card populated with post data to the main container. 
+ * @param {*} post 
+ */
 function addCard(post) {
     const card = templateCard.content.firstElementChild.cloneNode(true);
 
@@ -100,6 +108,7 @@ async function searchBookmarks(query) {
     } while (hasMore);
 }
 
+/** Populates the page with an initial set of bookmarked posts. */
 async function fetchBookmarks() {
     container.innerHTML = ''; // Clear any previous content
     
@@ -125,6 +134,14 @@ async function fetchBookmarks() {
     }
 }
 
+/** 
+ * Triggers a token request if an access code is found in the url
+ * parameters or checks the last token's expiration date stored
+ * in the cookie. 
+ * 
+ * Then, attempts an initial request for bookmarked posts
+ * if a valid token likely exists.
+ */
 async function checkAuth() {
     const params = new URLSearchParams(location.search);
     const accessExpires = localStorage.getItem('dewy.accessExpires');
@@ -156,9 +173,9 @@ async function checkAuth() {
     // fetchBookmarks(); //// TODO: TEMP
 }
 
-/** Apply a previously saved theme and respond to theme changes. */
+/** Applies a previously saved theme and responds to theme changes. */
 function initTheme() {
-    /** Refresh the layout and styles to reflect the current theme. */
+    /** Refreshes the layout and styles to reflect the current theme. */
     function refreshTheme() {
         const buttonIcon = themeToggle.querySelector('img');
         buttonIcon.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
