@@ -1,6 +1,6 @@
 let darkModeOn = false;
 
-let token;
+let token; //// TODO: DEL
 let lastQuery;
 
 const apiRoot = 'https://api.stackexchange.com/2.2';
@@ -101,14 +101,22 @@ async function searchBookmarks(query) {
 }
 
 async function fetchBookmarks() {
-    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=${sortBy.value}&site=stackoverflow&filter=!9_bDDxJY5&access_token=${token}&key=${dewy.key}`;
-
     container.innerHTML = ''; // Clear any previous content
     
     try {
-        // const response = await fetch(endpoint);
-        // const responseJson = await response.json();
-        const responseJson = dummyResponse; //// TODO: TEMP
+        const response = await fetch('/.netlify/functions/fetch-bookmarks', {
+            method: 'POST',
+            body: JSON.stringify({sort: sortBy.value})
+        });
+
+        const responseJson = await response.json();
+
+        if(!response.ok) {
+            console.error('Error fetching bookmarks', responseJson);
+            showConnectMsg();
+            return;
+        }
+
         console.log(responseJson);
 
         responseJson.items.forEach(post => addCard(post));
