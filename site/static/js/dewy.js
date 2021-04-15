@@ -1,6 +1,5 @@
 let darkModeOn = false;
 
-let token; //// TODO: DEL
 let lastQuery;
 
 const apiRoot = 'https://api.stackexchange.com/2.2';
@@ -28,7 +27,7 @@ function showConnectMsg() {
 
 /**
  * Adds a card populated with post data to the main container. 
- * @param {*} post 
+ * @param {*} post - A Stack Overflow post item.
  */
 function addCard(post) {
     const card = templateCard.content.firstElementChild.cloneNode(true);
@@ -57,10 +56,20 @@ function addCard(post) {
     container.appendChild(card);
 }
 
+/**
+ * Requests and searches through bookmarked posts for matching query text.
+ * Then, adds the matched posts to the container.
+ * @param {string} query - A trimmed and lowercase query string.
+ */
 async function searchBookmarks(query) {
     const queryTerms = query.split(/\s+/);
     console.log(queryTerms);
 
+    /**
+     * A helper to search a post for the current query terms.
+     * @param {*} post - A Stack Overflow post item.
+     * @returns {boolean} Whether the post contains a query term.
+     */
     function searchPost(post) {
         return queryTerms.some(term => {
             // Check tags
@@ -77,28 +86,40 @@ async function searchBookmarks(query) {
         });
     }
 
-    const endpoint = `${apiRoot}/me/favorites?order=desc&sort=${sortBy.value}&site=stackoverflow&filter=!9_bDDxJY5&pagesize=100&access_token=${token}&key=${dewy.key}`;
-
     container.innerHTML = ''; // Clear any previous content
 
     let page = 1;
     let hasMore = false;
 
     do {
-        let request = (page > 1) ? `${endpoint}&page=${page}` : endpoint;
-        console.log(request);
-
         try {
-            // const response = await fetch(request);
-            // const responseJson = await response.json();
-            const responseJson = dummyResponse; //// TODO: TEMP
+            const response = await fetch('/.netlify/functions/fetch-bookmarks', {
+                method: 'POST',
+                body: JSON.stringify({
+                    sort: sortBy.value, 
+                    page: page, 
+                    fullPages: true
+                })
+            });
+    
+            const responseJson = await response.json();
+    
+            if(!response.ok) {
+                console.error('Error fetching bookmarks', responseJson);
+                showConnectMsg();
+                break;
+            }
+    
             console.log(responseJson);
 
-            // hasMore = responseJson.has_more; //// TODO: TEMP
+            // Continue requesting pages while each response indicates
+            // that there are more results.
+            hasMore = responseJson.has_more;
 
             responseJson.items.forEach(post => {
                 if(searchPost(post)) addCard(post);
             });
+
         } catch(error) {
             console.error(error);
             break;
@@ -169,8 +190,7 @@ async function checkAuth() {
         return;
     }
 
-    console.log('fetch');
-    // fetchBookmarks(); //// TODO: TEMP
+    fetchBookmarks();
 }
 
 /** Applies a previously saved theme and responds to theme changes. */
