@@ -243,5 +243,6 @@ footer .button-small {
 }
 
 #btn-disconnect {
-    visibility: hidden;
+    /* visibility: hidden; */
+    display: none;
 }
