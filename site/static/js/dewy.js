@@ -50,7 +50,7 @@ function addCard(post) {
 }
 
 async function searchBookmarks(query) {
-    const queryTerms = query.toLowerCase().trim().split(/\s+/);
+    const queryTerms = query.split(/\s+/);
     console.log(queryTerms);
 
     function searchPost(post) {
@@ -73,11 +73,11 @@ async function searchBookmarks(query) {
 
     container.innerHTML = ''; // Clear any previous content
 
-    let i = 1;
+    let page = 1;
     let hasMore = false;
 
     do {
-        let request = (i > 1) ? `${endpoint}&page=${i}` : endpoint;
+        let request = (page > 1) ? `${endpoint}&page=${page}` : endpoint;
         console.log(request);
 
         try {
@@ -95,8 +95,8 @@ async function searchBookmarks(query) {
             console.error(error);
             break;
         }
-
-        i++;
+        page++;
+        
     } while (hasMore);
 }
 
