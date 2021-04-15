@@ -62,5 +62,9 @@
   },
   "resolutions": {
     "natives": "1.1.6"
+  },
+  "dependencies": {
+    "cookie": "^0.4.1",
+    "node-fetch": "^2.6.1"
   }
 }

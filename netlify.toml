@@ -8,3 +8,6 @@
 
 [context.deploy-preview]
   command = "npm run build:preview"
+
+[functions]
+  directory = "functions"

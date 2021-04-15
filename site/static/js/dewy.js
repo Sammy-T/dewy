@@ -117,23 +117,35 @@ async function fetchBookmarks() {
     }
 }
 
-function checkToken() {
-    // Check for token in the hash
-    const hash = location.hash;
-    const hashParams = new URLSearchParams(hash.substring(1));
+async function checkAuth() {
+    const params = new URLSearchParams(location.search);
+    const accessExpires = localStorage.getItem('dewy.accessExpires');
 
-    if(hashParams.has('access_token')) {
-        token = hashParams.get('access_token');
-        //// TODO: Store token
-    } else {
-        //// TODO: Check stored
+    if(params.has('code')) {
+        const code = params.get('code');
+
+        try {
+            const response = await fetch('/.netlify/functions/authenticate', {
+                method: 'POST',
+                body: JSON.stringify({code: code})
+            });
+
+            const responseJson = await response.json();
+            console.log(responseJson);
+
+            if(!response.ok) return;
+
+            localStorage.setItem('dewy.accessExpires', Date.parse(responseJson.expires));
+        } catch(error) {
+            console.error(error);
+            return;
+        }
+    } else if(accessExpires < Date.now()) {
+        return;
     }
 
-    if(token) {
-        fetchBookmarks();
-    } else {
-        showConnectMsg();
-    }
+    console.log('fetch');
+    // fetchBookmarks(); //// TODO: TEMP
 }
 
 /** Apply a previously saved theme and respond to theme changes. */
@@ -170,7 +182,8 @@ function initTheme() {
 
 function init() {
     initTheme();
-    checkToken();
+    showConnectMsg();
+    checkAuth();
 
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
