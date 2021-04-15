@@ -5,8 +5,5 @@ site/data/webpack.json
 # Local Netlify folder
 .netlify
 
-# Connect Button partial
-connect-button.html
-
 # Public app credentials
 dewy-info.js

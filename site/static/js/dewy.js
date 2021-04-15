@@ -1,5 +1,6 @@
 let darkModeOn = false;
 
+let authLink;
 let lastQuery;
 
 const apiRoot = 'https://api.stackexchange.com/2.2';
@@ -19,9 +20,16 @@ const templateMsgConnect = document.querySelector('#template-msg-connect');
  * triggers the access code request when clicked.
  */
 function showConnectMsg() {
+    if(!authLink) {
+        console.error('Missing auth link');
+        return;
+    }
+
     container.innerHTML = ''; // Clear any previous content
 
     const msgConnect = templateMsgConnect.content.firstElementChild.cloneNode(true);
+    const connectLink = msgConnect.querySelector('.connect');
+    connectLink.href = authLink;
     container.appendChild(msgConnect);
 }
 
@@ -193,6 +201,22 @@ async function checkAuth() {
     fetchBookmarks();
 }
 
+/** Fetches the link used to initiate auth. */
+async function fetchAuthLink() {
+    try {
+        const response = await fetch('/.netlify/functions/fetch-auth-link');
+        const responseJson = await response.json();
+        console.log(responseJson);
+
+        if(!response.ok) return;
+
+        authLink = responseJson.authLink;
+
+    } catch(error) {
+        console.error(error);
+    }
+}
+
 /** Applies a previously saved theme and responds to theme changes. */
 function initTheme() {
     /** Refreshes the layout and styles to reflect the current theme. */
@@ -225,9 +249,10 @@ function initTheme() {
     }
 }
 
-function init() {
+async function init() {
     initTheme();
-    showConnectMsg();
+    await fetchAuthLink();
+    await showConnectMsg();
     checkAuth();
 
     searchForm.addEventListener('submit', (event) => {
