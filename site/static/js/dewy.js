@@ -252,7 +252,7 @@ function initTheme() {
 async function init() {
     initTheme();
     await fetchAuthLink();
-    await showConnectMsg();
+    showConnectMsg();
     checkAuth();
 
     searchForm.addEventListener('submit', (event) => {
