@@ -1,5 +1,10 @@
 {{ define "page-head" }}
 <script src="{{ `/js/dewy.js` | relURL }}" defer></script>
+
+{{ if eq hugo.Environment "development" }}
+    {{ $devScript := resources.Get "js/dewy-dev.js" }}
+    <script src="{{ $devScript.RelPermalink }}" defer></script>
+{{ end }}
 {{ end }}
 
 {{ define "header" }}
