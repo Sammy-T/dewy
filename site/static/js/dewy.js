@@ -11,7 +11,7 @@ const searchInput = document.querySelector('#search-input');
 const sortBy = document.querySelector('#sort-by');
 const themeToggle = document.querySelector('#theme-toggle');
 
-const templateChip = document.querySelector('#template-chip');
+const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 
@@ -52,13 +52,23 @@ function addCard(post) {
     card.querySelector('.post-date').innerText = postDate;
     card.querySelector('details').innerHTML += post.body;
 
-    const chipContainer = card.querySelector('.chip-container');
+    const tagContainer = card.querySelector('.tag-container');
 
     post.tags.forEach(tag => {
-        const chip = templateChip.content.firstElementChild.cloneNode(true);
-        chip.innerText = tag;
+        const tagEl = templateTag.content.firstElementChild.cloneNode(true);
+        tagEl.innerText = tag;
 
-        chipContainer.appendChild(chip);
+        // When clicked, append tag to query and search the bookmarks
+        tagEl.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            searchInput.value = `${searchInput.value} ${tag}`.trim();
+            const query = searchInput.value.toLowerCase();
+
+            searchBookmarks(query);
+        });
+
+        tagContainer.appendChild(tagEl);
     });
 
     container.appendChild(card);
