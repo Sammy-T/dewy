@@ -10,6 +10,7 @@ const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
 const sortBy = document.querySelector('#sort-by');
 const themeToggle = document.querySelector('#theme-toggle');
+const logoutBtn = document.querySelector('#btn-logout');
 
 const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
@@ -231,8 +232,11 @@ async function fetchAuthLink() {
 function initTheme() {
     /** Refreshes the layout and styles to reflect the current theme. */
     function refreshTheme() {
-        const buttonIcon = themeToggle.querySelector('img');
-        buttonIcon.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
+        const themBtnIcon = themeToggle.querySelector('img');
+        themBtnIcon.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
+
+        const logoutBtnIcon = logoutBtn.querySelector('img');
+        logoutBtnIcon.src = (darkModeOn) ? 'img/logout-dark.svg' : 'img/logout.svg';
     
         if(darkModeOn) {
             document.body.classList.add('theme-dark');
