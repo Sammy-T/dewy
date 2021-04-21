@@ -233,18 +233,37 @@ footer * {
     margin: 0;
 }
 
-footer .button-small {
-    padding: 0 1rem;
+footer .button {
+    margin: 0;
+    padding: 1.5rem 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.button-small {
-    font-size: 1rem;
-    height: 2.8rem;
-    /* line-height: 2.8rem; */
-    padding: 0 1.5rem;
+.modal {
+    background: rgba(21, 22, 22, 0.25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#btn-disconnect {
-    /* visibility: hidden; */
-    display: none;
+.modal-content {
+    background: var(--color-surface);
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-actions * {
+    margin: 0.5rem;
 }

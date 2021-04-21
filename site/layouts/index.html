@@ -46,6 +46,17 @@
 
 {{ define "main" }}
 <main>
+    <div class="modal">
+        <div class="modal-content modal-logout">
+            <h4>Logout</h4>
+            <p>Are you sure you want to log out?</p>
+
+            <div class="modal-actions">
+                <button class="button logout" type="button">Log Out</button>
+                <button class="button button-outline cancel" type="button">Cancel</button>
+            </div>
+        </div>
+    </div>
 </main>
 
 <!-- Connect Message template -->
@@ -104,6 +115,8 @@
         <p>GitHub</p>
     </a>
 
-    <button type="button" id="btn-disconnect" class="button button-small button-clear">Disconnect</button>
+    <button type="button" id="btn-logout" class="button button-outline">
+        <img src="{{ `/img/logout.svg` | relURL }}">
+    </button>
 </footer>
 {{ end }}
