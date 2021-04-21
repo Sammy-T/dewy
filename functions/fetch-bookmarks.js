@@ -7,6 +7,13 @@ exports.handler = async (event) => {
     const cookies = cookie.parse(event.headers.cookie);
     const token = cookies['dewy.auth'];
 
+    if(!token) {
+        return {
+            statusCode: 401,
+            body: JSON.stringify({message: 'No logged in user.'})
+        };
+    }
+
     const params = new URLSearchParams();
     params.append('order', 'desc');
     params.append('sort', sort);

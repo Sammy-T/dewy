@@ -167,9 +167,11 @@ async function fetchBookmarks() {
             return;
         }
 
-        console.log(responseJson);
+        logoutBtn.disabled = false;
 
+        console.log(responseJson);
         responseJson.items.forEach(post => addCard(post));
+
     } catch(error) {
         console.error(error);
     }
@@ -224,6 +226,21 @@ async function fetchAuthLink() {
 
         authLink = responseJson.authLink;
 
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+/** Logs out the current user and refreshes the page. */
+async function logout() {
+    try {
+        const response = await fetch('/.netlify/functions/logout');
+        const responseJson = await response.json();
+        console.log(responseJson);
+
+        if(!response.ok) return;
+
+        location.reload(); // Refresh the page
     } catch(error) {
         console.error(error);
     }
@@ -303,10 +320,7 @@ async function init() {
         const removeModal = () => logoutModal.remove();
         modalFade.addEventListener('click', removeModal);
         cancelBtn.addEventListener('click', removeModal);
-
-        logoutBtn.addEventListener('click', () => {
-            console.log('logout');
-        });
+        logoutBtn.addEventListener('click', logout);
         
         container.appendChild(logoutModal);
     });
