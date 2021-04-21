@@ -15,6 +15,7 @@ const logoutBtn = document.querySelector('#btn-logout');
 const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
+const templateModalLogout = document.querySelector('#template-modal-logout');
 
 /** 
  * Displays the 'connect' message. This includes a button which
@@ -286,6 +287,28 @@ async function init() {
         // Perform another search if there's already a query value entered
         const query = searchInput.value.trim().toLowerCase();
         if(query !== '') searchBookmarks(lastQuery);
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        // If there's already a modal being displayed, replace it
+        const previousModal = container.querySelector('.modal');
+        if(previousModal) previousModal.remove();
+
+        // Set up the Logout modal and add it to the main container
+        const logoutModal = templateModalLogout.content.firstElementChild.cloneNode(true);
+        const modalFade = logoutModal.querySelector('.modal-fade');
+        const logoutBtn = logoutModal.querySelector('.logout');
+        const cancelBtn = logoutModal.querySelector('.cancel');
+
+        const removeModal = () => logoutModal.remove();
+        modalFade.addEventListener('click', removeModal);
+        cancelBtn.addEventListener('click', removeModal);
+
+        logoutBtn.addEventListener('click', () => {
+            console.log('logout');
+        });
+        
+        container.appendChild(logoutModal);
     });
 }
 

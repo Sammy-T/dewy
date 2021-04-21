@@ -46,17 +46,6 @@
 
 {{ define "main" }}
 <main>
-    <div class="modal">
-        <div class="modal-content modal-logout">
-            <h4>Logout</h4>
-            <p>Are you sure you want to log out?</p>
-
-            <div class="modal-actions">
-                <button class="button logout" type="button">Log Out</button>
-                <button class="button button-outline cancel" type="button">Cancel</button>
-            </div>
-        </div>
-    </div>
 </main>
 
 <!-- Connect Message template -->
@@ -99,6 +88,22 @@
         <details>
             <summary>Details</summary>
         </details>
+    </div>
+</template>
+
+<!-- Logout modal template -->
+<template id="template-modal-logout">
+    <div class="modal">
+        <div class="modal-fade"></div>
+        <div class="modal-content modal-logout">
+            <h4>Logout</h4>
+            <p>Are you sure you want to log out?</p>
+
+            <div class="modal-actions">
+                <button class="button logout" type="button">Log Out</button>
+                <button class="button button-outline cancel" type="button">Cancel</button>
+            </div>
+        </div>
     </div>
 </template>
 {{ end }}

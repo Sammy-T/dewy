@@ -242,7 +242,7 @@ footer .button {
 }
 
 .modal {
-    background: rgba(21, 22, 22, 0.25);
+    /* background: rgba(21, 22, 22, 0.25); */
     position: fixed;
     top: 0;
     left: 0;
@@ -253,10 +253,20 @@ footer .button {
     align-items: center;
 }
 
+.modal-fade {
+    background: rgba(21, 22, 22, 0.25);
+    -webkit-backdrop-filter: blur(0.15rem);
+    backdrop-filter: blur(0.15rem);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
 .modal-content {
     background: var(--color-surface);
     border-radius: 1rem;
     padding: 2rem;
+    z-index: 1;
 }
 
 .modal-actions {
