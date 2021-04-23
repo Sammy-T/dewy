@@ -1,8 +1,11 @@
 {
-  "name": "victor-hugo",
+  "name": "dewy",
   "version": "1.0.0",
-  "description": "Victor Hugo is a Hugo boilerplate for creating truly epic websites!",
-  "repository": "netlify/victor-hugo",
+  "description": "Dewy allows you to search through posts bookmarked on your Stack Overflow account.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sammy-T/dewy.git"
+  },
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
