@@ -6,6 +6,8 @@ I find that I regularly bookmark useful posts that I can reference later. Howeve
 
 Dewy is built on the [Victor Hugo](https://github.com/netlify-templates/victor-hugo) template ([README](VICTOR_HUGO_README.md)) and is configured to be tested and deployed using Netlify.
 
+![dewy-screen](https://user-images.githubusercontent.com/22360092/115831969-4cb71200-a3e0-11eb-9eda-f8beb33378c8.png)
+
 ## License
 
 This project uses the [MIT](LICENSE) license.
