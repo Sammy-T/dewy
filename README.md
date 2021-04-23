@@ -8,4 +8,4 @@ Dewy is built on the [Victor Hugo](https://github.com/netlify-templates/victor-h
 
 ## License
 
-This project uses the [MIT](LICENSE.md) license.
+This project uses the [MIT](LICENSE) license.
