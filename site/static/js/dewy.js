@@ -50,7 +50,7 @@ function addCard(post) {
     card.querySelector('.post-answers').innerText = post.answer_count;
     card.querySelector('.post-link').href = post.link;
     card.querySelector('.post-title').innerHTML = post.title;
-    card.querySelector('.post-author').innerText = post.owner.display_name;
+    card.querySelector('.post-author').innerHTML = post.owner.display_name;
     card.querySelector('.post-date').innerText = postDate;
     card.querySelector('details').innerHTML += post.body;
 
