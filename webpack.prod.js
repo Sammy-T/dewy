@@ -9,7 +9,6 @@ module.exports = merge(common, {
   mode: "production",
 
   output: {
-    publicPath: "",
     filename: "[name].[fullhash:5].js",
     chunkFilename: "[id].[fullhash:5].css"
   },
