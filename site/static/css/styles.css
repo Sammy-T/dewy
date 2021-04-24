@@ -1,4 +1,6 @@
 body {
+    --container-width: 1120px;
+
     --color-surface: white;
     --color-primary: whitesmoke;
     --color-detail: lightgray;
@@ -111,7 +113,7 @@ section {
 }
 
 main {
-    max-width: 1120px;
+    max-width: var(--container-width);
     min-height: 75vh;
     margin: 0 auto;
     padding: 2rem;
@@ -275,5 +277,27 @@ footer .button {
 }
 
 .modal-actions * {
+    margin: 0.5rem;
+}
+
+.msg-bar {
+    background: rgba(56, 56, 56, 0.85);
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    color: whitesmoke;
+}
+
+.msg-content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.msg-content * {
     margin: 0.5rem;
 }

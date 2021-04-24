@@ -16,6 +16,7 @@ const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 const templateModalLogout = document.querySelector('#template-modal-logout');
+const templateMsgBarCookie = document.querySelector('#template-msg-bar-cookie');
 
 /** 
  * Displays the 'connect' message. This includes a button which
@@ -33,6 +34,20 @@ function showConnectMsg() {
     const connectLink = msgConnect.querySelector('.connect');
     connectLink.href = authLink;
     container.appendChild(msgConnect);
+}
+
+/** Displays the 'cookie' message and stores the status when confirmed. */
+function showCookieMsgBar() {
+    const msgBarCookie = templateMsgBarCookie.content.firstElementChild.cloneNode(true);
+    const confirmButton = msgBarCookie.querySelector('button');
+
+    // Store the confirmation and dismiss the message
+    confirmButton.addEventListener('click', () => {
+        localStorage.setItem('dewy.consent', 'true');
+        msgBarCookie.remove();
+    });
+
+    container.after(msgBarCookie); // Append the msg bar after the main container
 }
 
 /**
@@ -286,6 +301,9 @@ async function init() {
     await fetchAuthLink();
     showConnectMsg();
     checkAuth();
+
+    // Display the Cookie message if it's not already confirmed
+    if(localStorage.getItem('dewy.consent') !== 'true') showCookieMsgBar();
 
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
