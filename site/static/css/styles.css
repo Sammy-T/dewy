@@ -301,3 +301,19 @@ footer .button {
 .msg-content * {
     margin: 0.5rem;
 }
+
+@media (max-width: 600px) {
+    .post-info {
+        flex-wrap: wrap;
+    }
+
+    .post-details {
+        order: 2;
+    }
+
+    .post-date {
+        order: 1;
+        flex-grow: 1;
+        text-align: end;
+    }
+}
