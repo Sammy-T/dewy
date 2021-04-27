@@ -243,6 +243,10 @@ footer .button {
     align-items: center;
 }
 
+#theme-toggle, #btn-logout {
+    color: var(--color-text);
+}
+
 .modal {
     /* background: rgba(21, 22, 22, 0.25); */
     position: fixed;

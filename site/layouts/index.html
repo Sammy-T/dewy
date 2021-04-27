@@ -23,7 +23,7 @@
         </form>
 
         <button id="theme-toggle" type="button" class="button button-outline">
-            <img src="{{ `/img/brightness-4.svg` | relURL }}">
+            {{ partial "icons/brightness-4.html" . }}
         </button>
     </nav>
 
@@ -130,7 +130,7 @@
     </a>
 
     <button type="button" id="btn-logout" class="button button-outline" disabled>
-        <img src="{{ `/img/logout.svg` | relURL }}">
+        {{ partial "icons/logout.html" . }}
     </button>
 </footer>
 {{ end }}

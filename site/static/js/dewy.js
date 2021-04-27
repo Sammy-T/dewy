@@ -264,13 +264,7 @@ async function logout() {
 /** Applies a previously saved theme and responds to theme changes. */
 function initTheme() {
     /** Refreshes the layout and styles to reflect the current theme. */
-    function refreshTheme() {
-        const themBtnIcon = themeToggle.querySelector('img');
-        themBtnIcon.src = (darkModeOn) ? 'img/brightness-4-dark.svg' : 'img/brightness-4.svg';
-
-        const logoutBtnIcon = logoutBtn.querySelector('img');
-        logoutBtnIcon.src = (darkModeOn) ? 'img/logout-dark.svg' : 'img/logout.svg';
-    
+    function refreshTheme() {    
         if(darkModeOn) {
             document.body.classList.add('theme-dark');
         }else{
