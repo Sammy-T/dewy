@@ -43,8 +43,20 @@ input {
     color: var(--color-input);
 }
 
+a {
+    word-break: break-all;
+}
+
+code {
+    white-space: normal;
+}
+
 pre, code {
     background-color: var(--color-code-bg);
+}
+
+pre, blockquote {
+    overflow-x: scroll;
 }
 
 header {
@@ -118,7 +130,6 @@ main {
     margin: 0 auto;
     padding: 2rem;
     padding-bottom: 5rem;
-    overflow-x: hidden;
 }
 
 form.inline {
