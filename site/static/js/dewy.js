@@ -2,6 +2,7 @@ let darkModeOn = false;
 
 let authLink;
 let lastQuery;
+let results;
 
 const apiRoot = 'https://api.stackexchange.com/2.2';
 
@@ -92,7 +93,7 @@ function addCard(post) {
 }
 
 /**
- * Requests and searches through bookmarked posts for matching query text.
+ * Searches through bookmarked posts for matching query text.
  * Then, adds the matched posts to the container.
  * @param {string} query - A trimmed and lowercase query string.
  */
@@ -108,7 +109,7 @@ async function searchBookmarks(query) {
     // Remove the exact and tag terms from the query
     query = query.replaceAll(exactRegex, '').replaceAll(tagRegex, '').trim();
 
-    const queryTerms = query.split(/\s+/);
+    const queryTerms = (query.length > 0) ? query.split(/\s+/) : [];
     console.log('query', queryTerms);
 
     /**
@@ -148,6 +149,15 @@ async function searchBookmarks(query) {
 
     container.innerHTML = ''; // Clear any previous content
 
+    results.forEach(post => {
+        if(searchPost(post)) addCard(post);
+    });
+}
+
+/** Requests bookmarked posts and stores the results in an array. */
+async function fetchBookmarks() {
+    results = []; // Clear any previous results
+
     let page = 1;
     let hasMore = false;
 
@@ -169,16 +179,16 @@ async function searchBookmarks(query) {
                 showConnectMsg();
                 break;
             }
-    
+
             console.log(responseJson);
+
+            results.push(...responseJson.items);
 
             // Continue requesting pages while each response indicates
             // that there are more results.
             hasMore = responseJson.has_more;
 
-            responseJson.items.forEach(post => {
-                if(searchPost(post)) addCard(post);
-            });
+            logoutBtn.disabled = false; // Enable the logout button
 
         } catch(error) {
             console.error(error);
@@ -186,35 +196,7 @@ async function searchBookmarks(query) {
         }
         page++;
         
-    } while (hasMore);
-}
-
-/** Populates the page with an initial set of bookmarked posts. */
-async function fetchBookmarks() {
-    container.innerHTML = ''; // Clear any previous content
-    
-    try {
-        const response = await fetch('/.netlify/functions/fetch-bookmarks', {
-            method: 'POST',
-            body: JSON.stringify({sort: sortBy.value})
-        });
-
-        const responseJson = await response.json();
-
-        if(!response.ok) {
-            console.error('Error fetching bookmarks', responseJson);
-            showConnectMsg();
-            return;
-        }
-
-        logoutBtn.disabled = false;
-
-        console.log(responseJson);
-        responseJson.items.forEach(post => addCard(post));
-
-    } catch(error) {
-        console.error(error);
-    }
+    } while(hasMore);
 }
 
 /** 
@@ -252,7 +234,9 @@ async function checkAuth() {
         return;
     }
 
-    fetchBookmarks();
+    // Make an initial request for bookmarks and display the full results
+    await fetchBookmarks();
+    searchBookmarks('');
 }
 
 /** Fetches the link used to initiate auth. */
@@ -329,18 +313,20 @@ async function init() {
 
         const query = searchInput.value.trim().toLowerCase();
 
-        // Perform a search if the query is valid
-        // and not a duplicate of the last one
-        if(query !== '' && query !== lastQuery) {
+        // Perform a search if the query is not a duplicate of the last one
+        if(query !== lastQuery) {
             searchBookmarks(query);
             lastQuery = query;
         }
     });
 
-    sortBy.addEventListener('change', () => {
-        // Perform another search if there's already a query value entered
+    sortBy.addEventListener('change', async () => {
         const query = searchInput.value.trim().toLowerCase();
-        if(query !== '') searchBookmarks(lastQuery);
+
+        // Make a new request using the updated sort value then perform a search
+        await fetchBookmarks();
+        searchBookmarks(query);
+        lastQuery = query;
     });
 
     logoutBtn.addEventListener('click', () => {
