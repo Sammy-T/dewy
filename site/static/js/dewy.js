@@ -79,7 +79,7 @@ function addCard(post) {
         tagEl.addEventListener('click', (event) => {
             event.preventDefault();
 
-            searchInput.value = `${searchInput.value} ${tag}`.trim();
+            searchInput.value = `${searchInput.value} [${tag}]`.trim();
             const query = searchInput.value.toLowerCase();
 
             searchBookmarks(query);
@@ -97,8 +97,19 @@ function addCard(post) {
  * @param {string} query - A trimmed and lowercase query string.
  */
 async function searchBookmarks(query) {
+    const exactRegex = /"(.*?)"/g; // Look for characters between quotes
+    const exactTerms = [...query.matchAll(exactRegex)].map(match => match[1]);
+    console.log('exact', exactTerms);
+
+    const tagRegex = /\[(.*?)\]/g; // Look for characters between brackets
+    const tagTerms = [...query.matchAll(tagRegex)].map(match => match[1]);
+    console.log('tag', tagTerms);
+
+    // Remove the exact and tag terms from the query
+    query = query.replaceAll(exactRegex, '').replaceAll(tagRegex, '').trim();
+
     const queryTerms = query.split(/\s+/);
-    console.log(queryTerms);
+    console.log('query', queryTerms);
 
     /**
      * A helper to search a post for the current query terms.
@@ -106,19 +117,33 @@ async function searchBookmarks(query) {
      * @returns {boolean} Whether the post contains a query term.
      */
     function searchPost(post) {
-        return queryTerms.some(term => {
-            // Check tags
+        const tagSearch = term => {
+            // Check if the term is in the tags
+            return post.tags.some(tag => tag.toLowerCase() === term);
+        };
+
+        const querySearch = term => {
+            // Check if the term is in the tags
             const foundInTags = post.tags.some(tag => tag.toLowerCase() === term);
             if(foundInTags) return true;
 
-            // Check title
+            // Check if the term is in the title
             const foundInTitlePos = post.title.toLowerCase().indexOf(term);
             if(foundInTitlePos > -1) return true;
 
-            // Check body
+            // Check if the term is in the body
             const foundInBodyPos = post.body.toLowerCase().indexOf(term);
             return (foundInBodyPos > -1);
-        });
+        };
+
+        const tagsMatch = (tagTerms.length > 0) ? tagTerms.every(tagSearch) : true;
+        if(!tagsMatch) return false;
+
+        const exactMatch = (exactTerms.length > 0) ? exactTerms.every(querySearch) : true;
+        if(!exactMatch) return false;
+
+        const queryMatch = (queryTerms.length > 0) ? queryTerms.some(querySearch) : true;
+        return tagsMatch && exactMatch && queryMatch;
     }
 
     container.innerHTML = ''; // Clear any previous content
