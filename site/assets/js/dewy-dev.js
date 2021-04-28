@@ -16,5 +16,7 @@ async function devCheckAuth(testToken) {
         return;
     }
 	
-	fetchBookmarks();
+	// Make an initial request for bookmarks and display the full results
+    await fetchBookmarks();
+    searchBookmarks('');
 }

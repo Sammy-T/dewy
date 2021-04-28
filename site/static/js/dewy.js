@@ -98,6 +98,11 @@ function addCard(post) {
  * @param {string} query - A trimmed and lowercase query string.
  */
 async function searchBookmarks(query) {
+    if(results.length === 0) {
+        console.warn('No results found.');
+        return;
+    }
+
     const exactRegex = /"(.*?)"/g; // Look for characters between quotes
     const exactTerms = [...query.matchAll(exactRegex)].map(match => match[1]);
     console.log('exact', exactTerms);
