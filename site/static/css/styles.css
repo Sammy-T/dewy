@@ -43,14 +43,6 @@ input {
     color: var(--color-input);
 }
 
-a {
-    word-break: break-all;
-}
-
-code {
-    white-space: normal;
-}
-
 pre, code {
     background-color: var(--color-code-bg);
 }
@@ -319,6 +311,14 @@ footer .button {
 }
 
 @media (max-width: 600px) {
+    a {
+        word-break: break-all;
+    }
+    
+    code {
+        white-space: normal;
+    }
+    
     .post-info {
         flex-wrap: wrap;
     }
