@@ -12,7 +12,7 @@
     "dev": "netlify dev",
     "prebuild": "rimraf dist",
     "build": "hugo -s site",
-    "build:preview": "hugo -D -s site"
+    "build:preview": "npm run prebuild && hugo -D -e development -s site"
   },
   "keywords": [],
   "author": "",
