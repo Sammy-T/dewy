@@ -1,7 +1,7 @@
-{{ define "main" }}
-
-<h1>Nothing Here...</h1>
-<h2 style="font-size: 120px; margin:0;">💩</h2>
-<h3><a href="{{ `/` | relURL }}">Go Home</a></h3>
-
+{{ define "main-content" }}
+<article style="text-align: center;">
+    <h1 style="color: orangered;">⚠</h1>
+    <h3>Uh oh.. Looks like there was a wrong turn somewhere.</h3>
+    <a class="button button-outline" href="{{ `/` | relURL }}">Home</a>
+</article>
 {{ end }}

@@ -1,0 +1,5 @@
+<img src="{{ .Get `href` }}" 
+{{ with .Get `alt` }} alt="{{.}}" {{ end }}
+{{ with .Get `width` }} width="{{.}}" {{ end }}
+{{ with .Get `height` }} height="{{.}}" {{ end }}
+style="display: block; margin: 0 auto;">

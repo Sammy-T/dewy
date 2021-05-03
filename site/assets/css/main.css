@@ -1,0 +1,31 @@
+/* Import external stylesheets */
+@import 'milligram/dist/milligram.min.css';
+
+/* Additional styling */
+main.container {
+    padding: 2rem 3rem;
+}
+
+.billboard {
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    padding: 5rem;
+    background-color:slategray;
+    color: whitesmoke;
+    text-align: center;
+}
+
+nav {
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.page-title {
+    text-align: center;
+}
+
+article {
+    border: 1px solid #9b4dca;
+    border-radius: 1.5rem;
+    padding: 2rem;
+}

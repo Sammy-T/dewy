@@ -1,13 +1,14 @@
-[build.environment]
-  YARN_VERSION = "1.12.1"
-  NPM_VERSION = "6.4.1"
-
 [build]
   command = "npm run build"
   publish = "dist"
 
 [context.deploy-preview]
   command = "npm run build:preview"
+
+[dev]
+  command = "npm start"
+  targetPort = 1313
+  framework = "#custom"
 
 [functions]
   directory = "functions"
