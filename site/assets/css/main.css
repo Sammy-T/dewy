@@ -1,3 +1,9 @@
+/* Import external stylesheets */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic');
+@import 'normalize.css/normalize.css';
+@import 'milligram/dist/milligram.min.css';
+
+/* Additional styling */
 body {
     --container-width: 1120px;
 
@@ -49,6 +55,13 @@ pre, code {
 
 pre, blockquote {
     overflow-x: scroll;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar */
+pre::-webkit-scrollbar, blockquote::-webkit-scrollbar {
+    display: none;
 }
 
 header {
