@@ -5,25 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{{ $.Site.Title }} - Search Stack Overflow bookmarks</title>
-
-        <!-- Milligram -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-
-        {{/*
+        
         <!-- Process CSS files with PostCSS -->
         <!-- More details: https://gohugo.io/hugo-pipes/postcss/ -->
         {{ $style := resources.Get "css/main.css" | resources.PostCSS }}
         <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
+        {{/* // Remove js processing
         <!-- Process JavaScript files with ESBuild -->
         <!-- More details: https://gohugo.io/hugo-pipes/js/ -->
         {{ $built := resources.Get "js/index.js" | js.Build "main.js" }}
         <script src="{{ $built.RelPermalink }}" defer></script>
         */}}
-
-        <link rel="stylesheet" href="{{ `/css/styles.css` | relURL }}">
 
         {{ block "page-head" . }}{{ end }}
     </head>

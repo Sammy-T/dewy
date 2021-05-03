@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "hugo server -D -s site",
+    "dev": "netlify dev",
     "prebuild": "rimraf dist",
     "build": "hugo -s site",
     "build:preview": "hugo -D -s site"
@@ -18,7 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "cookie": "^0.4.1",
-    "node-fetch": "^2.6.1"
+    "milligram": "^1.4.1",
+    "node-fetch": "^2.6.1",
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "hugo-bin": "^0.71.0",
