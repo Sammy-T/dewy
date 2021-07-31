@@ -22,7 +22,7 @@
             </button>
         </form>
 
-        <button id="theme-toggle" type="button" class="button button-outline">
+        <button id="theme-toggle" type="button" class="button button-outline" aria-label="toggle theme">
             {{ partial "icons/brightness-4.html" . }}
         </button>
     </nav>
@@ -137,7 +137,7 @@
         <p>GitHub</p>
     </a>
 
-    <button type="button" id="btn-logout" class="button button-outline" disabled>
+    <button type="button" id="btn-logout" class="button button-outline" aria-label="log out" disabled>
         {{ partial "icons/logout.html" . }}
     </button>
 </footer>
