@@ -234,6 +234,13 @@ form.inline *:last-child {
     align-items: center;
 }
 
+.loading svg {
+    animation-name: spin;
+    animation-duration: 0.85s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
 footer {
     border-top: 1px solid gray;
     background-color: var(--color-surface);
@@ -344,5 +351,15 @@ footer .button {
         order: 1;
         flex-grow: 1;
         text-align: end;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
