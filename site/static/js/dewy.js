@@ -16,6 +16,7 @@ const logoutBtn = document.querySelector('#btn-logout');
 const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
+const templateMsgLoading = document.querySelector('#template-msg-loading');
 const templateModalLogout = document.querySelector('#template-modal-logout');
 const templateMsgBarCookie = document.querySelector('#template-msg-bar-cookie');
 
@@ -35,6 +36,14 @@ function showConnectMsg() {
     const connectLink = msgConnect.querySelector('.connect');
     connectLink.href = authLink;
     container.appendChild(msgConnect);
+}
+
+/** Displays the 'loading' message. */
+function showLoadingMsg() {
+    container.innerHTML = ''; // Clear any previous content
+
+    const msgLoading = templateMsgLoading.content.firstElementChild.cloneNode(true);
+    container.appendChild(msgLoading);
 }
 
 /** Displays the 'cookie' message and stores the status when confirmed. */
@@ -161,6 +170,8 @@ async function searchBookmarks(query) {
 
 /** Requests bookmarked posts and stores the results in an array. */
 async function fetchBookmarks() {
+    showLoadingMsg()
+
     results = []; // Clear any previous results
 
     let page = 1;
