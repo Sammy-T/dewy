@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios').default;
 const cookie = require('cookie');
 
 exports.handler = async (event) => {
@@ -13,13 +13,14 @@ exports.handler = async (event) => {
     params.append('redirect_uri', process.env.STACK_REDIRECT_URI);
 
     try {
-        const response = await fetch(endpoint, {
-            method: 'POST',
+        const response = await axios({
+            method: 'post',
+            url: endpoint,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: params
+            data: params
         });
 
-        if(!response.ok) {
+        if(response.statusText !== 'OK') {
             console.error('Auth response error', response);
             return {
                 statusCode: 400,
@@ -27,7 +28,7 @@ exports.handler = async (event) => {
             };
         }
 
-        const responseJson = await response.json();
+        const responseJson = response.data;
         console.log('Auth response', responseJson);
         
         // The response can return a 200 success but still have an error message
