@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios').default;
 const cookie = require('cookie');
 
 exports.handler = async (event) => {
@@ -27,10 +27,10 @@ exports.handler = async (event) => {
     const endpoint = `https://api.stackexchange.com/2.2/me/favorites?${params}`;
     
     try {
-        const response = await fetch(endpoint);
-        const responseJson = await response.json();
+        const response = await axios(endpoint);
+        const responseJson = response.data;
 
-        if(!response.ok) {
+        if(response.statusText !== 'OK') {
             console.error('Favorites response error', responseJson);
             return {
                 statusCode: responseJson.error_id,
