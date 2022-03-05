@@ -187,14 +187,13 @@ async function fetchBookmarks() {
                     fullPages: true
                 })
             });
+
+            if(!response.ok) {
+                showConnectMsg();
+                throw new Error('Unable to fetch bookmarks');
+            }
     
             const responseJson = await response.json();
-    
-            if(!response.ok) {
-                console.error('Error fetching bookmarks', responseJson);
-                showConnectMsg();
-                break;
-            }
 
             console.log(responseJson);
 
@@ -236,10 +235,10 @@ async function checkAuth() {
                 body: JSON.stringify({code: code})
             });
 
+            if(!response.ok) throw new Error('Unable to check auth');
+
             const responseJson = await response.json();
             console.log(responseJson);
-
-            if(!response.ok) return;
 
             localStorage.setItem('dewy.accessExpires', Date.parse(responseJson.expires));
         } catch(error) {
@@ -259,10 +258,10 @@ async function checkAuth() {
 async function fetchAuthLink() {
     try {
         const response = await fetch('/.netlify/functions/fetch-auth-link');
+        if(!response.ok) throw new Error('Unable to fetch auth link');
+
         const responseJson = await response.json();
         console.log(responseJson);
-
-        if(!response.ok) return;
 
         authLink = responseJson.authLink;
 
@@ -275,10 +274,10 @@ async function fetchAuthLink() {
 async function logout() {
     try {
         const response = await fetch('/.netlify/functions/logout');
+        if(!response.ok) throw new Error('Unable to log out');
+
         const responseJson = await response.json();
         console.log(responseJson);
-
-        if(!response.ok) return;
 
         location.reload(); // Refresh the page
     } catch(error) {
