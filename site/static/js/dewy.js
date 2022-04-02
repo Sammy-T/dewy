@@ -17,6 +17,7 @@ const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 const templateMsgLoading = document.querySelector('#template-msg-loading');
+const templateNoResults = document.querySelector('#template-no-results');
 const templateModalLogout = document.querySelector('#template-modal-logout');
 const templateMsgBarCookie = document.querySelector('#template-msg-bar-cookie');
 
@@ -44,6 +45,14 @@ function showLoadingMsg() {
 
     const msgLoading = templateMsgLoading.content.firstElementChild.cloneNode(true);
     container.appendChild(msgLoading);
+}
+
+/** Displays the 'no results' message. */
+function showNoResultsMsg() {
+    container.innerHTML = ''; // Clear any previous content
+
+    const msgNoResults = templateNoResults.content.firstElementChild.cloneNode(true);
+    container.appendChild(msgNoResults);
 }
 
 /** Displays the 'cookie' message and stores the status when confirmed. */
@@ -123,6 +132,7 @@ function addCard(post) {
 async function searchBookmarks(query) {
     if(results.length === 0) {
         console.warn('No results found.');
+        showNoResultsMsg();
         return;
     }
 
