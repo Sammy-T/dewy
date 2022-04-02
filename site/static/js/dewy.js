@@ -1,7 +1,6 @@
 let darkModeOn = false;
 
 let authLink;
-let lastQuery;
 let results;
 
 const apiRoot = 'https://api.stackexchange.com/2.3';
@@ -65,13 +64,11 @@ function showCookieMsgBar() {
  * Populates the 'site' select element.
  * @param {*} associations 
  */
-function populateAccts(associations) {
+function populateSites(associations) {
     associations.forEach(assoc => {
-        const assocSite = assoc.site_url.replace('https://', '');
-        
         const opEl = document.createElement('option');
-        opEl.value = assocSite;
-        opEl.textContent = assocSite;
+        opEl.value = assoc.site_url.replace('https://', '');
+        opEl.textContent = assoc.site_name;
 
         site.appendChild(opEl);
     });
@@ -199,6 +196,7 @@ async function fetchBookmarks() {
             const response = await fetch('/.netlify/functions/fetch-bookmarks', {
                 method: 'POST',
                 body: JSON.stringify({
+                    site: site.value,
                     sort: sortBy.value, 
                     page: page, 
                     fullPages: true
@@ -241,7 +239,7 @@ async function fetchAssociations() {
         }
 
         console.log(responseJson);
-        populateAccts(responseJson.items);
+        populateSites(responseJson.items);
     } catch(error) {
         console.error(error);
     }
@@ -363,12 +361,7 @@ async function init() {
         event.preventDefault();
 
         const query = searchInput.value.trim().toLowerCase();
-
-        // Perform a search if the query is not a duplicate of the last one
-        if(query !== lastQuery) {
-            searchBookmarks(query);
-            lastQuery = query;
-        }
+        searchBookmarks(query);
     });
 
     /** A helper to update the query when an option changes. */
@@ -378,7 +371,6 @@ async function init() {
         // Make a new request using the updated sort value then perform a search
         await fetchBookmarks();
         searchBookmarks(query);
-        lastQuery = query;
     }
 
     site.addEventListener('change', updateQuery);
