@@ -28,17 +28,21 @@
     </nav>
 
     <section id="opts-section">
-        <div id="filter-area">
-        </div>
+        <form id="opts-form" class="inline">
+            <fieldset class="inline">
+                <label for="site"><h6>Site</h6></label>
+                <select id="site"></select>
+            </fieldset>
 
-        <form id="sort-form" class="inline">
-            <label for="sort-by"><h6>Sort by</h6></label>
-            <select id="sort-by">
-                <option value="added" selected>Added</option>
-                <option value="activity">Activity</option>
-                <option value="creation">Creation</option>
-                <option value="votes">Votes</option>
-            </select>
+            <fieldset class="inline">
+                <label for="sort-by"><h6>Sort by</h6></label>
+                <select id="sort-by">
+                    <option value="added" selected>Added</option>
+                    <option value="activity">Activity</option>
+                    <option value="creation">Creation</option>
+                    <option value="votes">Votes</option>
+                </select>
+            </fieldset>
         </form>
     </section>
 </header>
@@ -61,6 +65,13 @@
     <section class="msg loading">
         <h4>Loading</h4>
         {{ partial "icons/loading.html" . }}
+    </section>
+</template>
+
+<!-- No Results template -->
+<template id="template-no-results">
+    <section class="msg">
+        <h4>No results found</h4>
     </section>
 </template>
 

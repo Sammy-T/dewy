@@ -1,14 +1,14 @@
 let darkModeOn = false;
 
 let authLink;
-let lastQuery;
 let results;
 
-const apiRoot = 'https://api.stackexchange.com/2.2';
+const apiRoot = 'https://api.stackexchange.com/2.3';
 
 const container = document.querySelector('main');
 const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
+const site = document.querySelector('#site');
 const sortBy = document.querySelector('#sort-by');
 const themeToggle = document.querySelector('#theme-toggle');
 const logoutBtn = document.querySelector('#btn-logout');
@@ -17,6 +17,7 @@ const templateTag = document.querySelector('#template-tag');
 const templateCard = document.querySelector('#template-card');
 const templateMsgConnect = document.querySelector('#template-msg-connect');
 const templateMsgLoading = document.querySelector('#template-msg-loading');
+const templateNoResults = document.querySelector('#template-no-results');
 const templateModalLogout = document.querySelector('#template-modal-logout');
 const templateMsgBarCookie = document.querySelector('#template-msg-bar-cookie');
 
@@ -46,6 +47,14 @@ function showLoadingMsg() {
     container.appendChild(msgLoading);
 }
 
+/** Displays the 'no results' message. */
+function showNoResultsMsg() {
+    container.innerHTML = ''; // Clear any previous content
+
+    const msgNoResults = templateNoResults.content.firstElementChild.cloneNode(true);
+    container.appendChild(msgNoResults);
+}
+
 /** Displays the 'cookie' message and stores the status when confirmed. */
 function showCookieMsgBar() {
     const msgBarCookie = templateMsgBarCookie.content.firstElementChild.cloneNode(true);
@@ -58,6 +67,20 @@ function showCookieMsgBar() {
     });
 
     container.after(msgBarCookie); // Append the msg bar after the main container
+}
+
+/**
+ * Populates the 'site' select element.
+ * @param {*} associations 
+ */
+function populateSites(associations) {
+    associations.forEach(assoc => {
+        const opEl = document.createElement('option');
+        opEl.value = assoc.site_url.replace('https://', '');
+        opEl.textContent = assoc.site_name;
+
+        site.appendChild(opEl);
+    });
 }
 
 /**
@@ -109,6 +132,7 @@ function addCard(post) {
 async function searchBookmarks(query) {
     if(results.length === 0) {
         console.warn('No results found.');
+        showNoResultsMsg();
         return;
     }
 
@@ -182,21 +206,20 @@ async function fetchBookmarks() {
             const response = await fetch('/.netlify/functions/fetch-bookmarks', {
                 method: 'POST',
                 body: JSON.stringify({
+                    site: site.value,
                     sort: sortBy.value, 
                     page: page, 
                     fullPages: true
                 })
             });
+            const responseJson = await response.json();
 
             if(!response.ok) {
                 showConnectMsg();
-                throw new Error('Unable to fetch bookmarks');
+                throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
             }
     
-            const responseJson = await response.json();
-
             console.log(responseJson);
-
             results.push(...responseJson.items);
 
             // Continue requesting pages while each response indicates
@@ -212,6 +235,24 @@ async function fetchBookmarks() {
         page++;
         
     } while(hasMore);
+}
+
+/** Fetches the associated accounts connected to the current user. */
+async function fetchAssociations() {
+    try {
+        const response = await fetch('/.netlify/functions/fetch-associated-accounts');
+        const responseJson = await response.json();
+
+        if(!response.ok) {
+            showConnectMsg();
+            throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
+        }
+
+        console.log(responseJson);
+        populateSites(responseJson.items);
+    } catch(error) {
+        console.error(error);
+    }
 }
 
 /** 
@@ -234,10 +275,10 @@ async function checkAuth() {
                 method: 'POST',
                 body: JSON.stringify({code: code})
             });
-
-            if(!response.ok) throw new Error('Unable to check auth');
-
             const responseJson = await response.json();
+
+            if(!response.ok) throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
+
             console.log(responseJson);
 
             localStorage.setItem('dewy.accessExpires', Date.parse(responseJson.expires));
@@ -249,9 +290,12 @@ async function checkAuth() {
         return;
     }
 
-    // Make an initial request for bookmarks and display the full results
-    await fetchBookmarks();
-    searchBookmarks('');
+    await fetchAssociations();
+
+    if(site.value) {
+        await fetchBookmarks(); // Make an initial request for bookmarks and display the full results
+        searchBookmarks('');
+    }
 }
 
 /** Fetches the link used to initiate auth. */
@@ -327,22 +371,20 @@ async function init() {
         event.preventDefault();
 
         const query = searchInput.value.trim().toLowerCase();
-
-        // Perform a search if the query is not a duplicate of the last one
-        if(query !== lastQuery) {
-            searchBookmarks(query);
-            lastQuery = query;
-        }
+        searchBookmarks(query);
     });
 
-    sortBy.addEventListener('change', async () => {
+    /** A helper to update the query when an option changes. */
+    async function updateQuery() {
         const query = searchInput.value.trim().toLowerCase();
 
         // Make a new request using the updated sort value then perform a search
         await fetchBookmarks();
         searchBookmarks(query);
-        lastQuery = query;
-    });
+    }
+
+    site.addEventListener('change', updateQuery);
+    sortBy.addEventListener('change', updateQuery);
 
     logoutBtn.addEventListener('click', () => {
         // If there's already a modal being displayed, replace it

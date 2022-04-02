@@ -20,17 +20,10 @@ exports.handler = async (event) => {
             data: params
         });
 
-        if(response.statusText !== 'OK') {
-            console.error('Auth response error', response);
-            return {
-                statusCode: 400,
-                body: JSON.stringify(response.error)
-            };
-        }
-
         const responseJson = response.data;
         console.log('Auth response', responseJson);
         
+        // TODO: Check against Axios
         // The response can return a 200 success but still have an error message
         // so I'll return an error status from the function.
         if(responseJson.error_message || !responseJson.access_token) {
@@ -62,9 +55,12 @@ exports.handler = async (event) => {
 
     } catch(error) {
         console.error('Error making auth request', error);
+        const statusCode = error.response?.data?.error_id || 500;
+        const errorDetails = error.response?.data || error;
+
         return {
-            statusCode: 500,
-            body: JSON.stringify(error)
-        };
+            statusCode: statusCode,
+            body: JSON.stringify(errorDetails)
+        }
     }
 };
