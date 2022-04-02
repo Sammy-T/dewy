@@ -212,6 +212,24 @@ async function fetchBookmarks() {
     } while(hasMore);
 }
 
+let tempAssoc;
+async function fetchAssociations() {
+    try {
+        const response = await fetch('/.netlify/functions/fetch-associated-accounts');
+        const responseJson = await response.json();
+
+        if(!response.ok) {
+            showConnectMsg();
+            throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
+        }
+
+        console.log(responseJson);
+        tempAssoc = responseJson;
+    } catch(error) {
+        console.error(error);
+    }
+}
+
 /** 
  * Triggers a token request if an access code is found in the url
  * parameters or checks the last token's expiration date stored
@@ -247,9 +265,11 @@ async function checkAuth() {
         return;
     }
 
-    // Make an initial request for bookmarks and display the full results
-    await fetchBookmarks();
-    searchBookmarks('');
+    await fetchAssociations();
+    if(tempAssoc) {
+        await fetchBookmarks(); // Make an initial request for bookmarks and display the full results
+        searchBookmarks('');
+    }
 }
 
 /** Fetches the link used to initiate auth. */
