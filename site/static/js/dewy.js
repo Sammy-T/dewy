@@ -4,7 +4,7 @@ let authLink;
 let lastQuery;
 let results;
 
-const apiRoot = 'https://api.stackexchange.com/2.2';
+const apiRoot = 'https://api.stackexchange.com/2.3';
 
 const container = document.querySelector('main');
 const searchForm = document.querySelector('#search-form');
