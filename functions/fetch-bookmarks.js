@@ -10,7 +10,10 @@ exports.handler = async (event) => {
     if(!token) {
         return {
             statusCode: 401,
-            body: JSON.stringify({message: 'No logged in user.'})
+            body: JSON.stringify({
+                error_id: 401,
+                error_message: 'No logged in user.'
+            })
         };
     }
 
@@ -30,25 +33,19 @@ exports.handler = async (event) => {
         const response = await axios(endpoint);
         const responseJson = response.data;
 
-        if(response.statusText !== 'OK') {
-            console.error('Favorites response error', responseJson);
-            return {
-                statusCode: responseJson.error_id,
-                body: JSON.stringify(responseJson)
-            };
-        }
-
         // console.log('Favorites response', responseJson);
         return {
             statusCode: 200,
             body: JSON.stringify(responseJson)
         };
-
     } catch(error) {
         console.error('Error making favorites request', error);
+        const statusCode = error.response?.data?.error_id || 500;
+        const errorDetails = error.response?.data || error;
+
         return {
-            statusCode: 500,
-            body: JSON.stringify(error)
+            statusCode: statusCode,
+            body: JSON.stringify(errorDetails)
         }
     }
 };

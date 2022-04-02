@@ -187,16 +187,14 @@ async function fetchBookmarks() {
                     fullPages: true
                 })
             });
+            const responseJson = await response.json();
 
             if(!response.ok) {
                 showConnectMsg();
-                throw new Error('Unable to fetch bookmarks');
+                throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
             }
     
-            const responseJson = await response.json();
-
             console.log(responseJson);
-
             results.push(...responseJson.items);
 
             // Continue requesting pages while each response indicates
@@ -234,10 +232,10 @@ async function checkAuth() {
                 method: 'POST',
                 body: JSON.stringify({code: code})
             });
-
-            if(!response.ok) throw new Error('Unable to check auth');
-
             const responseJson = await response.json();
+
+            if(!response.ok) throw new Error(`${responseJson.error_id} ${responseJson.error_message}`);
+
             console.log(responseJson);
 
             localStorage.setItem('dewy.accessExpires', Date.parse(responseJson.expires));
