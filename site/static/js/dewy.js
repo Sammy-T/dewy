@@ -9,6 +9,7 @@ const apiRoot = 'https://api.stackexchange.com/2.3';
 const container = document.querySelector('main');
 const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
+const site = document.querySelector('#site');
 const sortBy = document.querySelector('#sort-by');
 const themeToggle = document.querySelector('#theme-toggle');
 const logoutBtn = document.querySelector('#btn-logout');
@@ -58,6 +59,22 @@ function showCookieMsgBar() {
     });
 
     container.after(msgBarCookie); // Append the msg bar after the main container
+}
+
+/**
+ * Populates the 'site' select element.
+ * @param {*} associations 
+ */
+function populateAccts(associations) {
+    associations.forEach(assoc => {
+        const assocSite = assoc.site_url.replace('https://', '');
+        
+        const opEl = document.createElement('option');
+        opEl.value = assocSite;
+        opEl.textContent = assocSite;
+
+        site.appendChild(opEl);
+    });
 }
 
 /**
@@ -212,7 +229,7 @@ async function fetchBookmarks() {
     } while(hasMore);
 }
 
-let tempAssoc;
+/** Fetches the associated accounts connected to the current user. */
 async function fetchAssociations() {
     try {
         const response = await fetch('/.netlify/functions/fetch-associated-accounts');
@@ -224,7 +241,7 @@ async function fetchAssociations() {
         }
 
         console.log(responseJson);
-        tempAssoc = responseJson;
+        populateAccts(responseJson.items);
     } catch(error) {
         console.error(error);
     }
@@ -266,7 +283,8 @@ async function checkAuth() {
     }
 
     await fetchAssociations();
-    if(tempAssoc) {
+
+    if(site.value) {
         await fetchBookmarks(); // Make an initial request for bookmarks and display the full results
         searchBookmarks('');
     }
@@ -353,14 +371,18 @@ async function init() {
         }
     });
 
-    sortBy.addEventListener('change', async () => {
+    /** A helper to update the query when an option changes. */
+    async function updateQuery() {
         const query = searchInput.value.trim().toLowerCase();
 
         // Make a new request using the updated sort value then perform a search
         await fetchBookmarks();
         searchBookmarks(query);
         lastQuery = query;
-    });
+    }
+
+    site.addEventListener('change', updateQuery);
+    sortBy.addEventListener('change', updateQuery);
 
     logoutBtn.addEventListener('click', () => {
         // If there's already a modal being displayed, replace it
