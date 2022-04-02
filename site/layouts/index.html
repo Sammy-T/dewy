@@ -28,17 +28,21 @@
     </nav>
 
     <section id="opts-section">
-        <div id="filter-area">
-        </div>
+        <form id="opts-form" class="inline">
+            <fieldset class="inline">
+                <label for="account"><h6>Account</h6></label>
+                <select id="account"></select>
+            </fieldset>
 
-        <form id="sort-form" class="inline">
-            <label for="sort-by"><h6>Sort by</h6></label>
-            <select id="sort-by">
-                <option value="added" selected>Added</option>
-                <option value="activity">Activity</option>
-                <option value="creation">Creation</option>
-                <option value="votes">Votes</option>
-            </select>
+            <fieldset class="inline">
+                <label for="sort-by"><h6>Sort by</h6></label>
+                <select id="sort-by">
+                    <option value="added" selected>Added</option>
+                    <option value="activity">Activity</option>
+                    <option value="creation">Creation</option>
+                    <option value="votes">Votes</option>
+                </select>
+            </fieldset>
         </form>
     </section>
 </header>
