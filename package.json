@@ -24,7 +24,7 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "hugo-bin": "^0.80.0",
+    "hugo-bin": "^0.102.0",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.0.2",
